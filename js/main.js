@@ -4,14 +4,19 @@ function loadDefaultValues() {
     fetch("txt/roles.txt").then(r => r.text())
   ])
   .then(([turnsData, rolesData]) => {
-    document.getElementById("turns").value = turnsData;
-    document.getElementById("roles").value = rolesData;
+    getTurnsElement().value = turnsData;
+    getRolesElement().value = rolesData;
 
-    document.getElementById("period-without-roles").value = guessBestPeriodWithoutRoles();
+    getPeriodWithoutRolesElement().value = guessBestPeriodWithoutRoles();
+    defineSuggestedPeriodWithoutRoles();
   })
   .catch(error => console.error("Erreur:", error));
 }
 window.addEventListener("DOMContentLoaded", loadDefaultValues);
+
+getSuggestedPeriodWithoutRolesElement().addEventListener("click", function() {
+  getPeriodWithoutRolesElement().value = guessBestPeriodWithoutRoles();
+})
 
 class Task {
   constructor(
@@ -32,8 +37,29 @@ class Task {
   }
 }
 
+function getTurnsElement() {
+  return document.getElementById("turns");
+}
+
+function getRolesElement() {
+  return document.getElementById("roles");
+}
+
+function getPeriodWithoutRolesElement() {
+  return document.getElementById("period-without-roles");
+}
+
+function getSuggestedPeriodWithoutRolesElement() {
+  return document.getElementById("suggested-period-without-roles");
+}
+
+function defineSuggestedPeriodWithoutRoles() {
+  getSuggestedPeriodWithoutRolesElement().innerHTML = "Auto";
+  getSuggestedPeriodWithoutRolesElement().title = guessBestPeriodWithoutRoles();
+}
+
 function getDefinedTurns() {
-  const content = document.getElementById("turns").value.trim();
+  const content = getTurnsElement().value.trim();
   
   return content.split('\n');  
 }
@@ -43,7 +69,7 @@ function getTurns() {
 }
 
 function getDefinedRoles() {
-  const rolesContent = document.getElementById("roles").value.trim();
+  const rolesContent = getRolesElement().value.trim();
   
   return rolesContent.split('\n');
 }
@@ -51,7 +77,7 @@ function getDefinedRoles() {
 function getRoles() {
   const rolesDefined = getDefinedRoles();
 
-  const periodWithoutRoles = document.getElementById("period-without-roles").value.trim();
+  const periodWithoutRoles = getPeriodWithoutRolesElement().value.trim();
 
   let rolesWithFakes = [];
   for (let iRole = 0; iRole < rolesDefined.length; iRole++) {
