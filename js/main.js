@@ -1,19 +1,15 @@
 function loadDefaultValues() {
-  fetch("txt/turns.txt")
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById("turns").value = data;
-    })
-    .catch(error => console.error("Erreur:", error))
-    ;
+  Promise.all([
+    fetch("txt/turns.txt").then(r => r.text()),
+    fetch("txt/roles.txt").then(r => r.text())
+  ])
+  .then(([turnsData, rolesData]) => {
+    document.getElementById("turns").value = turnsData;
+    document.getElementById("roles").value = rolesData;
 
-  fetch("txt/roles.txt")
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById("roles").value = data;
-    })
-    .catch(error => console.error("Erreur:", error))
-    ;
+    document.getElementById("period-without-roles").value = guessBestPeriodWithoutRoles();
+  })
+  .catch(error => console.error("Erreur:", error));
 }
 window.addEventListener("DOMContentLoaded", loadDefaultValues);
 
@@ -36,16 +32,24 @@ class Task {
   }
 }
 
-function getTurns() {
-  const turnsContent = document.getElementById("turns").value.trim();
-  const turnsDefined = turnsContent.split('\n');  
+function getDefinedTurns() {
+  const content = document.getElementById("turns").value.trim();
+  
+  return content.split('\n');  
+}
 
-  return turnsDefined;
+function getTurns() {
+  return getDefinedTurns();
+}
+
+function getDefinedRoles() {
+  const rolesContent = document.getElementById("roles").value.trim();
+  
+  return rolesContent.split('\n');
 }
 
 function getRoles() {
-  const rolesContent = document.getElementById("roles").value.trim();
-  const rolesDefined = rolesContent.split('\n');
+  const rolesDefined = getDefinedRoles();
 
   const periodWithoutRoles = document.getElementById("period-without-roles").value.trim();
 
@@ -63,6 +67,16 @@ function getRoles() {
   }
 
   return rolesWithFakes;
+}
+
+function guessBestPeriodWithoutRoles() {
+  const turns = getDefinedTurns();
+  const roles = getDefinedRoles();
+
+  const maxTurns = turns.length;
+  const maxRoles = roles.length;
+
+  return Math.round(maxTurns / maxRoles) - 1;
 }
 
 function getTasks() {
