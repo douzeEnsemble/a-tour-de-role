@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/main.css">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <title>À tour de rôle</title>
+</head>
+
+<body>
+  <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+  </nav>
+
+  <div class="section" id="index-banner">
+    <div class="container">
+      <h1 class="title is-1 has-text-warning">À tour de rôle</h1>
+
+      <form class="box">
+        <div class="columns">
+          
+          <div class="column">
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label class="label" for="turns">Tours</label>
+              </div>
+              <div class="field-body">
+                <div class="control">
+                  <textarea 
+                  class="textarea" 
+                  placeholder="Turns list"
+                  rows="10" 
+                  id="turns"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="column">
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label class="label" for="roles">Rôles</label>
+              </div>
+              <div class="field-body">
+                <div class="control">
+                  <textarea 
+                    class="textarea" 
+                    placeholder="roles list"
+                    rows="10" 
+                    id="roles"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            
+            <div class="field is-horizontal">
+              <div class="field-label">
+                <label class="label" for="roles">Nb. période sans rôle</label>
+              </div>
+              <div class="field-body">
+                <div class="control">
+                  <input placeholder="0" id="period-without-roles" type="number" class="input">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="">
+          <button class="button is-primary is-large is-fullwidth is-rounded" id="generate">
+            <span class="icon">
+              <i class="fa-solid fa-list-check"></i>
+            </span>
+            <span>Répartir</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="tabs is-centered is-large is-boxed">
+        <ul>
+          <li class="is-active" data-tab="listing-by-turn"><a>Par tours</a></li>
+          <li data-tab="listing-by-role"><a>Par rôles</a></li>
+          <li data-tab="listing-by-period"><a>Par période</a></li>
+        </ul>
+      </div>
+      <div class="columns">
+        <div class="tab-content column is-full" id="listing-by-turn">
+          <div class="" id="listing-content-by-turn">
+            TOURS
+          </div>
+        </div>
+
+        <div class="tab-content column is-full is-hidden" id="listing-by-role">
+          <div class="" id="listing-content-by-role">
+            ROLES
+          </div>
+        </div>
+
+        <div class="tab-content column is-full is-hidden" id="listing-by-period">
+          <div class="" id="listing-content-by-period">
+            PERIODE
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://kit.fontawesome.com/1da7e67ec4.js" crossorigin="anonymous"></script>
+
+  <script src="js/tabs.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,9 @@
+Détective
+Enseignement
+Infirmière
+Journalisme
+Médecin
+Peintre
+Physicien
+Policier
+Pompier
