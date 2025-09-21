@@ -1,19 +1,3 @@
-function loadDefaultValues() {
-  Promise.all([
-    fetch("txt/turns.txt").then(r => r.text()),
-    fetch("txt/roles.txt").then(r => r.text())
-  ])
-  .then(([turnsData, rolesData]) => {
-    getTurnsElement().value = turnsData;
-    getRolesElement().value = rolesData;
-
-    definePeriodWithoutRolesElement();
-    defineSuggestedPeriodWithoutRoles();
-  })
-  .catch(error => console.error("Erreur:", error));
-}
-
-
 class Task {
   constructor(
     periodIndex, 
@@ -103,6 +87,30 @@ function guessBestPeriodWithoutRoles() {
   const maxRoles = roles.length;
 
   return Math.round(maxTurns / maxRoles) - 1;
+}
+
+function saveValues() {
+  localStorage.setItem("turns", getTurnsElement().value);
+  localStorage.setItem("roles", getRolesElement().value);
+  localStorage.setItem("period-without-roles", getPeriodWithoutRolesElement().value);
+}
+
+function loadValues() {
+  getTurnsElement().value = localStorage.getItem("turns");
+  getRolesElement().value = localStorage.getItem("roles");
+  getPeriodWithoutRolesElement().value = localStorage.getItem("period-without-roles");
+}
+
+function loadForm() {
+  loadValues();
+
+  defineSuggestedPeriodWithoutRoles();
+}
+
+function updateForm() {
+  saveValues();
+
+  defineSuggestedPeriodWithoutRoles();
 }
 
 function getTasks() {
@@ -312,14 +320,14 @@ function generate(event) {
 }
 
 window.addEventListener("DOMContentLoaded", function () {
-  loadDefaultValues();
+  loadForm();
 
   document.getElementById('generate').addEventListener('click', generate);
   getSuggestedPeriodWithoutRolesElement().addEventListener("click", definePeriodWithoutRolesElement);
 
-  getTurnsElement().addEventListener('input', defineSuggestedPeriodWithoutRoles);
-  getRolesElement().addEventListener('input', defineSuggestedPeriodWithoutRoles);
+  getTurnsElement().addEventListener('input', updateForm);
+  getRolesElement().addEventListener('input', updateForm);
 
-  getTurnsElement().addEventListener('change', defineSuggestedPeriodWithoutRoles);
-  getRolesElement().addEventListener('change', defineSuggestedPeriodWithoutRoles);
+  getTurnsElement().addEventListener('change', updateForm);
+  getRolesElement().addEventListener('change', updateForm);
 });
