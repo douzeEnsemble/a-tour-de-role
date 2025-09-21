@@ -259,9 +259,9 @@ function generate(event) {
     'turnLabel',
     'roleLabel',
     'periodLabel',
-    'Rôle',
-    'Période',
-    'Les tours de ',
+    'Métier',
+    'Semaine',
+    '',
   );
 
   const tasksByRoles = [...tasks].sort((a, b) => {
@@ -282,8 +282,8 @@ function generate(event) {
     'turnLabel',
     'periodLabel',
     'Tour',
-    'Période',
-    'Rôle ',
+    'Semaine',
+    '',
   );
 
   const tasksByPeriods = [...tasks].sort((a, b) => {
@@ -304,8 +304,8 @@ function generate(event) {
     'turnLabel',
     'roleLabel',
     'Tour',
-    'Rôle ',
-    'Période ',
+    'Métier ',
+    'Semaine ',
   );
 
   document.querySelector('[data-tab="listing-by-turn"]').dispatchEvent(new Event("click"));
