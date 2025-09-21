@@ -169,6 +169,7 @@ function createTableElement(labelOne, labelTwo) {
   table.classList.add('is-striped');
   table.classList.add('is-hoverable');
   table.classList.add('is-fullwidth');
+  table.classList.add('is-narrow');
   let thead = document.createElement("thead");
   let trHead = document.createElement("tr");
   let thRole = document.createElement("th");
