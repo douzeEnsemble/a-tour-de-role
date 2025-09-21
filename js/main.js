@@ -44,6 +44,10 @@ function definePeriodWithoutRolesElement() {
 
 function getDefinedTurns() {
   const content = getTurnsElement().value.trim();
+
+  if ('' === content) {
+    return [];
+  }
   
   return content.split('\n');  
 }
@@ -53,13 +57,21 @@ function getTurns() {
 }
 
 function getDefinedRoles() {
-  const rolesContent = getRolesElement().value.trim();
+  const content = getRolesElement().value.trim();
+
+  if ('' === content) {
+    return [];
+  }
   
-  return rolesContent.split('\n');
+  return content.split('\n');
 }
 
 function getRoles() {
   const rolesDefined = getDefinedRoles();
+
+  if (0 === rolesDefined.length) {
+    return [];
+  }
 
   const periodWithoutRoles = getPeriodWithoutRolesElement().value.trim();
 
@@ -139,6 +151,13 @@ function getTasks() {
 
   const maxTurn = turns.length;
   const maxRole = roles.length;
+
+  console.log(maxTurn);
+  console.log(maxRole);
+
+  if (0 === maxTurn || 0 === maxRole) {
+    return [];
+  }
 
   const tasks = [];
   for (let iTurn = 0; iTurn < maxTurn; iTurn++) {
@@ -269,6 +288,10 @@ function generate(event) {
   event.preventDefault();
 
   const tasks = getTasks();
+
+  if (0 === tasks.length) {
+    return;
+  }
 
   const tasksByTurns = [...tasks].sort((a, b) => {
     if (a.turnIndex !== b.turnIndex) {
