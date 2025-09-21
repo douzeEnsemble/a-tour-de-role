@@ -73,8 +73,8 @@ function getTasks() {
   const maxRole = roles.length;
 
   const tasks = [];
-  for (let iRole = 0; iRole < maxRole; iRole++) {
-    for (let iTurn = 0; iTurn < maxTurn; iTurn++) {
+  for (let iTurn = 0; iTurn < maxTurn; iTurn++) {
+    for (let iRole = 0; iRole < maxRole; iRole++) {
       const turn = turns[iTurn];
       const role = roles[iRole];
 
@@ -93,55 +93,32 @@ function getTasks() {
     }
   }
 
-  return tasks;
-
   for (let iPeriod = 0; iPeriod < maxTurn; iPeriod++) {
     for (let iTurn = 0; iTurn < maxTurn; iTurn++) {
       const exists = tasks.some(task => 
-        task.periodIndex === iPeriod 
+        task.periodIndex === iPeriod
         && task.turnIndex === iTurn
       );
 
       if (exists) {
         continue;
       }
+      
+      const turn = turns[iTurn];
+      const role = roles[maxRole];
 
-      console.log('not exists', iPeriod, iTurn)
-
-      for (let iRole = 0; iRole < maxRole; iRole++) {
-        const exists = tasks.some(task => 
-          task.periodIndex === iPeriod 
-          && task.roleIndex === iRole
-        );
-
-        console.log(iPeriod, iTurn, iRole);
-
-        if (exists) {
-          continue;
-        }
-        
-        const turn = turns[iTurn];
-        const role = roles[iRole];
-
-        console.log(iRole, role);
-
-        tasks.push(
-          new Task(
-            iPeriod,
-            iPeriod + 1,
-            iTurn,
-            turn, 
-            iRole,
-            role,
-          )
-        );
-      }      
+      tasks.push(
+        new Task(
+          iPeriod,
+          iPeriod + 1,
+          iTurn,
+          turn, 
+          maxRole,
+          role,
+        )
+      );
     }
   }
-
-  tasks.forEach(function(task) {
-    console.log(task);
-  })
 
   return tasks;
 }
@@ -223,8 +200,6 @@ function generate(event) {
   event.preventDefault();
 
   const tasks = getTasks();
-
-  console.log(tasks);
 
   const tasksByTurns = [...tasks].sort((a, b) => {
     if (a.turnIndex !== b.turnIndex) {
