@@ -98,7 +98,7 @@ function guessBestPeriodWithoutRoles() {
   const maxTurns = turns.length;
   const maxRoles = roles.length;
 
-  return Math.round(maxTurns / maxRoles) - 1;
+  return Math.max(0, Math.round(maxTurns / maxRoles) - 1);
 }
 
 function saveValues() {
