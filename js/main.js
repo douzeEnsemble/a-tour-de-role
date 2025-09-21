@@ -7,16 +7,12 @@ function loadDefaultValues() {
     getTurnsElement().value = turnsData;
     getRolesElement().value = rolesData;
 
-    getPeriodWithoutRolesElement().value = guessBestPeriodWithoutRoles();
+    definePeriodWithoutRolesElement();
     defineSuggestedPeriodWithoutRoles();
   })
   .catch(error => console.error("Erreur:", error));
 }
-window.addEventListener("DOMContentLoaded", loadDefaultValues);
 
-getSuggestedPeriodWithoutRolesElement().addEventListener("click", function() {
-  getPeriodWithoutRolesElement().value = guessBestPeriodWithoutRoles();
-})
 
 class Task {
   constructor(
@@ -56,6 +52,10 @@ function getSuggestedPeriodWithoutRolesElement() {
 function defineSuggestedPeriodWithoutRoles() {
   getSuggestedPeriodWithoutRolesElement().innerHTML = "Auto";
   getSuggestedPeriodWithoutRolesElement().title = guessBestPeriodWithoutRoles();
+}
+
+function definePeriodWithoutRolesElement() {
+  getPeriodWithoutRolesElement().value = guessBestPeriodWithoutRoles();
 }
 
 function getDefinedTurns() {
@@ -311,5 +311,14 @@ function generate(event) {
 }
 
 window.addEventListener("DOMContentLoaded", function () {
+  loadDefaultValues();
+
   document.getElementById('generate').addEventListener('click', generate);
+  getSuggestedPeriodWithoutRolesElement().addEventListener("click", definePeriodWithoutRolesElement);
+
+  getTurnsElement().addEventListener('input', defineSuggestedPeriodWithoutRoles);
+  getRolesElement().addEventListener('input', defineSuggestedPeriodWithoutRoles);
+
+  getTurnsElement().addEventListener('change', defineSuggestedPeriodWithoutRoles);
+  getRolesElement().addEventListener('change', defineSuggestedPeriodWithoutRoles);
 });
