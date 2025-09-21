@@ -113,6 +113,26 @@ function updateForm() {
   defineSuggestedPeriodWithoutRoles();
 }
 
+function resetForm() {
+  if (! confirm("Tu es sûr·e de vouloir tout effacer ?")) {
+    return;
+  }
+  getTurnsElement().value = '';
+  getRolesElement().value = '';
+  getPeriodWithoutRolesElement().value = '';
+
+  updateForm();
+
+  document.getElementById('listing-by-turn').classList.add('is-hidden');
+  document.getElementById('listing-content-by-turn').innerHTML = '';
+  
+  document.getElementById('listing-by-role').classList.add('is-hidden');
+  document.getElementById('listing-content-by-role').innerHTML = '';
+  
+  document.getElementById('listing-by-period').classList.add('is-hidden');
+  document.getElementById('listing-content-by-period').innerHTML = '';
+}
+
 function getTasks() {
   const turns = getTurns();
   const roles = getRoles();
@@ -323,6 +343,7 @@ window.addEventListener("DOMContentLoaded", function () {
   loadForm();
 
   document.getElementById('generate').addEventListener('click', generate);
+  document.getElementById('reset').addEventListener('click', resetForm);
   getSuggestedPeriodWithoutRolesElement().addEventListener("click", definePeriodWithoutRolesElement);
 
   getTurnsElement().addEventListener('input', updateForm);
