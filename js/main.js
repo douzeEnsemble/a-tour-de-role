@@ -306,6 +306,8 @@ function generate(event) {
     'Rôle ',
     'Période ',
   );
+
+  document.querySelector('[data-tab="listing-by-turn"]').dispatchEvent(new Event("click"));
 }
 
 window.addEventListener("DOMContentLoaded", function () {
