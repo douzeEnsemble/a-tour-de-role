@@ -158,9 +158,6 @@ function getTasks() {
   const maxTurn = turns.length;
   const maxRole = roles.length;
 
-  console.log(maxTurn);
-  console.log(maxRole);
-
   if (0 === maxTurn || 0 === maxRole) {
     return [];
   }
