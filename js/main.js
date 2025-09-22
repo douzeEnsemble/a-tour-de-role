@@ -140,15 +140,15 @@ function resetForm() {
   getPeriodWithoutRolesElement().value = '';
 
   updateForm();
-
-  document.getElementById('listing-by-turn').classList.add('is-hidden');
-  document.getElementById('listing-content-by-turn').innerHTML = '';
-  
-  document.getElementById('listing-by-role').classList.add('is-hidden');
-  document.getElementById('listing-content-by-role').innerHTML = '';
   
   document.getElementById('listing-by-period').classList.add('is-hidden');
   document.getElementById('listing-content-by-period').innerHTML = '';
+  
+  document.getElementById('listing-by-role').classList.add('is-hidden');
+  document.getElementById('listing-content-by-role').innerHTML = '';
+
+  document.getElementById('listing-by-turn').classList.add('is-hidden');
+  document.getElementById('listing-content-by-turn').innerHTML = '';
 }
 
 function getTasks() {
@@ -299,26 +299,26 @@ function generate(event) {
     return;
   }
 
-  const tasksByTurns = [...tasks].sort((a, b) => {
-    if (a.turnIndex !== b.turnIndex) {
-      return a.turnIndex - b.turnIndex;
+  const tasksByPeriods = [...tasks].sort((a, b) => {
+    if (a.periodIndex !== b.periodIndex) {
+      return a.periodIndex - b.periodIndex;
     }
     
-    if (a.periodIndex !== b.periodIndex) {
-      return a.periodIndex - b.periodIndex;      
-    }    
+    if (a.turnIndex !== b.turnIndex) {
+      return a.turnIndex - b.turnIndex;
+    }      
 
     return a.roleIndex - b.roleIndex;
   });
   generateTable(
-    tasksByTurns,
-    'listing-content-by-turn',
+    tasksByPeriods,
+    'listing-content-by-period',
+    'periodLabel',
     'turnLabel',
     'roleLabel',
-    'periodLabel',
-    'Métier',
-    'Semaine',
-    '',
+    'Tour',
+    'Métier ',
+    'Semaine ',
   );
 
   const tasksByRoles = [...tasks].sort((a, b) => {
@@ -343,29 +343,29 @@ function generate(event) {
     '',
   );
 
-  const tasksByPeriods = [...tasks].sort((a, b) => {
-    if (a.periodIndex !== b.periodIndex) {
-      return a.periodIndex - b.periodIndex;
-    }
-    
+  const tasksByTurns = [...tasks].sort((a, b) => {
     if (a.turnIndex !== b.turnIndex) {
       return a.turnIndex - b.turnIndex;
-    }      
+    }
+    
+    if (a.periodIndex !== b.periodIndex) {
+      return a.periodIndex - b.periodIndex;      
+    }    
 
     return a.roleIndex - b.roleIndex;
   });
   generateTable(
-    tasksByPeriods,
-    'listing-content-by-period',
-    'periodLabel',
+    tasksByTurns,
+    'listing-content-by-turn',
     'turnLabel',
     'roleLabel',
-    'Tour',
-    'Métier ',
-    'Semaine ',
+    'periodLabel',
+    'Métier',
+    'Semaine',
+    '',
   );
 
-  document.querySelector('[data-tab="listing-by-turn"]').dispatchEvent(new Event("click"));
+  document.querySelector('[data-tab="listing-by-period"]').dispatchEvent(new Event("click"));
 }
 
 window.addEventListener("DOMContentLoaded", function () {
