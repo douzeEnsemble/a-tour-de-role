@@ -290,9 +290,7 @@ function generateTable(tasks, targetId, itemKey, rowOneItem, rowTwoItem, colOneT
   target.appendChild(table);
 }
 
-function generate(event) {
-  event?.preventDefault();
-
+function generate() {
   const tasks = getTasks();
 
   if (0 === tasks.length) {
@@ -371,7 +369,6 @@ function generate(event) {
 window.addEventListener("DOMContentLoaded", function () {
   loadForm();
 
-  document.getElementById('generate').addEventListener('click', generate);
   document.getElementById('reset').addEventListener('click', resetForm);
   getSuggestedPeriodWithoutRolesElement().addEventListener("click", definePeriodWithoutRolesElement);
 
