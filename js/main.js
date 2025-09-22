@@ -287,6 +287,89 @@ function generateTable(tasks, targetId, itemKey, rowOneItem, rowTwoItem, colOneT
   target.appendChild(table);
 }
 
+function exportListing(event) {
+  event.preventDefault;
+
+  let target = event.target;
+
+  if (! target.classList.contains('export-listing')) {
+    target = target.closest('[data-type]');
+  }
+
+  const type = target.attributes.getNamedItem('data-type').value;
+
+  let header = [];
+  switch (type) {
+    case 'period':
+      header = [
+        "Semaine", 
+        "Élève", 
+        "Métier",
+      ];
+
+      break;
+
+    case 'role':
+      header = [
+        "Métier",
+        "Élève", 
+        "Semaine", 
+      ];
+
+      break;
+
+    case 'turn':
+      header = [
+        "Élève", 
+        "Métier",
+        "Semaine", 
+      ];
+
+      break;
+  }  
+
+  const tasks = getTasks();
+
+  const rows = tasks.map(task => {
+    switch (type) {
+      case 'period':
+        return [
+          task.periodLabel,
+          task.turnLabel,
+          task.roleLabel,
+        ];    
+      case 'role':
+        return [
+          task.turnLabel,
+          task.roleLabel, 
+          task.periodLabel,
+        ];
+      case 'turn':
+        return [
+          task.roleLabel,
+          task.turnLabel,
+          task.periodLabel,
+        ];
+    }  
+  });
+
+  const csvContent = [
+    header.join(","),
+    ...rows.map(row => row.join(","))
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = 'a-tour-de-role.csv';
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 function generate() {
   const tasks = getTasks();
 
@@ -368,12 +451,16 @@ window.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById('reset').addEventListener('click', resetForm);
   getSuggestedPeriodWithoutRolesElement().addEventListener("click", definePeriodWithoutRolesElement);
-
+  
   getPeriodWithoutRolesElement().addEventListener('change', updateForm);
-
+  
   getTurnsElement().addEventListener('input', updateForm);
   getRolesElement().addEventListener('input', updateForm);
-
+  
   getTurnsElement().addEventListener('change', updateForm);
   getRolesElement().addEventListener('change', updateForm);
+
+  document.querySelectorAll('.export-listing').forEach(element => {
+    element.addEventListener('click', exportListing);
+  });
 });
