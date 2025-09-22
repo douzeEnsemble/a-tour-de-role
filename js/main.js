@@ -40,6 +40,8 @@ function defineSuggestedPeriodWithoutRoles() {
 
 function definePeriodWithoutRolesElement() {
   getPeriodWithoutRolesElement().value = guessBestPeriodWithoutRoles();
+
+  generate();
 }
 
 function getDefinedTurns() {
@@ -117,12 +119,16 @@ function loadForm() {
   loadValues();
 
   defineSuggestedPeriodWithoutRoles();
+
+  generate();
 }
 
 function updateForm() {
   saveValues();
 
   defineSuggestedPeriodWithoutRoles();
+
+  generate();
 }
 
 function resetForm() {
@@ -285,7 +291,7 @@ function generateTable(tasks, targetId, itemKey, rowOneItem, rowTwoItem, colOneT
 }
 
 function generate(event) {
-  event.preventDefault();
+  event?.preventDefault();
 
   const tasks = getTasks();
 
@@ -368,6 +374,8 @@ window.addEventListener("DOMContentLoaded", function () {
   document.getElementById('generate').addEventListener('click', generate);
   document.getElementById('reset').addEventListener('click', resetForm);
   getSuggestedPeriodWithoutRolesElement().addEventListener("click", definePeriodWithoutRolesElement);
+
+  getPeriodWithoutRolesElement().addEventListener('change', updateForm);
 
   getTurnsElement().addEventListener('input', updateForm);
   getRolesElement().addEventListener('input', updateForm);
